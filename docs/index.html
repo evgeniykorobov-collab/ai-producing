@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Евгений Коробов — AI Automation Engineer</title>
+<meta name="description" content="Евгений Коробов — AI Automation Engineer, архитектор AI-агентных систем. Двадцать лет управления процессами, два года — построение систем, которые эти процессы заменяют.">
+<meta name="author" content="Евгений Коробов">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Евгений Коробов — AI Automation Engineer">
+<meta property="og:description" content="20 лет строил процессы людьми. Последние два года заменяю их системами. 43 проекта, ≈400 000 строк, 4 бота в проде, 6+ боевых серверов.">
+<meta property="og:url" content="https://ai-producing.com/">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:site_name" content="ai-producing.com">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Евгений Коробов — AI Automation Engineer">
+<meta name="twitter:description" content="20 лет строил процессы людьми. Последние два года заменяю их системами.">
+<meta name="theme-color" content="#1F3B57" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0F1418" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%231F3B57'/%3E%3Ctext x='16' y='22' font-family='Georgia,serif' font-size='16' fill='%23fff' text-anchor='middle'%3E%D0%9A%3C/text%3E%3C/svg%3E">
+<style>
+/* ─────────── токены ─────────── */
+:root{
+  --bg:#ffffff; --surface:#f7f8fa; --surface-2:#eef1f5;
+  --text:#16202b; --muted:#5a6672; --faint:#8b95a1;
+  --rule:#e3e7ec; --rule-strong:#cfd6de;
+  --accent:#1f3b57; --accent-soft:#eaf0f6; --accent-line:#1f3b57;
+  --mono:ui-monospace,"SF Mono","Cascadia Mono","Segoe UI Mono",Menlo,Consolas,monospace;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,"Helvetica Neue",Arial,sans-serif;
+  --w:720px;
+}
+html[data-theme="dark"]{
+  --bg:#0f1418; --surface:#161c22; --surface-2:#1c242c;
+  --text:#e6edf3; --muted:#98a5b2; --faint:#76838f;
+  --rule:#232b33; --rule-strong:#33404b;
+  --accent:#40c4b4; --accent-soft:#14282b; --accent-line:#40c4b4;
+}
+@media (prefers-color-scheme:dark){
+  html:not([data-theme="light"]){
+    --bg:#0f1418; --surface:#161c22; --surface-2:#1c242c;
+    --text:#e6edf3; --muted:#98a5b2; --faint:#76838f;
+    --rule:#232b33; --rule-strong:#33404b;
+    --accent:#40c4b4; --accent-soft:#14282b; --accent-line:#40c4b4;
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--text);
+  font-family:var(--sans); font-size:17px; line-height:1.62;
+  font-feature-settings:"liga" 1,"kern" 1;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:var(--w); margin:0 auto; padding:0 24px}
+@media(max-width:520px){ body{font-size:16px} .wrap{padding:0 18px} }
+
+/* ─────────── верхняя панель ─────────── */
+.topbar{
+  position:sticky; top:0; z-index:40; background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:saturate(140%) blur(8px); border-bottom:1px solid transparent;
+  transition:border-color .25s ease;
+}
+.topbar.scrolled{border-bottom-color:var(--rule)}
+.topbar .wrap{display:flex; align-items:center; justify-content:space-between; height:52px; gap:12px}
+.brand{font-size:14px; letter-spacing:.02em; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.brand b{color:var(--text); font-weight:600}
+.tools{display:flex; align-items:center; gap:8px; flex-shrink:0}
+.iconbtn{
+  appearance:none; border:1px solid var(--rule); background:transparent; color:var(--muted);
+  width:34px; height:34px; border-radius:8px; cursor:pointer; display:grid; place-items:center;
+  transition:border-color .2s,color .2s,background .2s;
+}
+.iconbtn:hover{border-color:var(--rule-strong); color:var(--text)}
+.iconbtn svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+html[data-theme="dark"] .ic-sun{display:block} html[data-theme="dark"] .ic-moon{display:none}
+.ic-sun{display:none} .ic-moon{display:block}
+@media (prefers-color-scheme:dark){
+  html:not([data-theme="light"]) .ic-sun{display:block}
+  html:not([data-theme="light"]) .ic-moon{display:none}
+}
+
+/* ─────────── шапка ─────────── */
+header.hero{padding:64px 0 8px}
+h1{
+  font-size:clamp(30px,6vw,42px); line-height:1.12; margin:0 0 10px;
+  font-weight:650; letter-spacing:-.02em;
+}
+.role{font-size:clamp(16px,2.6vw,19px); color:var(--accent); font-weight:550; margin:0 0 22px; letter-spacing:.005em}
+.meta{color:var(--muted); font-size:15px; margin:0 0 18px}
+.contacts{display:flex; flex-wrap:wrap; gap:6px 18px; font-size:15px; margin:0 0 22px; padding:0; list-style:none}
+.contacts a{color:var(--text)}
+.linkrow{display:flex; flex-wrap:wrap; gap:8px; margin:0 0 28px}
+.chip{
+  display:inline-flex; align-items:center; gap:7px; font-size:14px; text-decoration:none;
+  color:var(--muted); border:1px solid var(--rule); border-radius:99px; padding:6px 14px;
+  transition:border-color .2s,color .2s,transform .2s;
+}
+.chip:hover{border-color:var(--accent); color:var(--accent); transform:translateY(-1px)}
+.chip svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.dl{display:flex; flex-wrap:wrap; gap:10px; margin:0 0 8px}
+.btn{
+  display:inline-flex; align-items:center; gap:9px; text-decoration:none; font-size:14.5px; font-weight:520;
+  padding:11px 18px; border-radius:9px; border:1px solid var(--accent); color:var(--accent);
+  background:transparent; transition:background .2s,color .2s,transform .2s;
+}
+.btn:hover{background:var(--accent); color:var(--bg); transform:translateY(-1px)}
+.btn.solid{background:var(--accent); color:var(--bg)}
+.btn.solid:hover{opacity:.88}
+.btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+
+a{color:var(--accent); text-decoration:none; background-image:linear-gradient(currentColor,currentColor);
+  background-size:0 1px; background-repeat:no-repeat; background-position:0 100%; transition:background-size .25s ease}
+a:hover{background-size:100% 1px}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
+
+/* ─────────── секции ─────────── */
+section{padding:44px 0; border-top:1px solid var(--rule)}
+section:first-of-type{border-top:none}
+h2{
+  font-size:13px; text-transform:uppercase; letter-spacing:.13em; font-weight:620;
+  color:var(--faint); margin:0 0 26px; font-family:var(--sans);
+}
+h3{font-size:19px; font-weight:600; margin:0 0 4px; letter-spacing:-.01em; line-height:1.3}
+h4{font-size:15px; font-weight:600; margin:22px 0 8px; color:var(--text)}
+p{margin:0 0 15px}
+.lead{font-size:clamp(20px,3.4vw,25px); line-height:1.4; font-weight:550; letter-spacing:-.015em; margin:0 0 26px}
+.sub{color:var(--muted); font-size:15.5px}
+.note{color:var(--muted); font-size:14.5px; font-style:normal}
+strong{font-weight:620}
+ul{margin:0 0 15px; padding-left:20px}
+li{margin:0 0 8px}
+li::marker{color:var(--faint)}
+hr{border:none; border-top:1px solid var(--rule); margin:28px 0}
+
+/* плитка цифр */
+.stats{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--rule); border:1px solid var(--rule); border-radius:12px; overflow:hidden; margin:0 0 8px}
+@media(max-width:560px){.stats{grid-template-columns:repeat(2,1fr)}}
+.stat{background:var(--bg); padding:16px 14px}
+.stat .n{font-family:var(--mono); font-size:clamp(19px,3.4vw,23px); font-weight:600; letter-spacing:-.02em; display:block; line-height:1.25}
+.stat .l{font-size:12.5px; color:var(--muted); line-height:1.35; margin-top:3px; display:block}
+
+/* карточки проектов */
+.card{border:1px solid var(--rule); border-radius:12px; padding:20px 22px; margin:0 0 14px; background:var(--surface); transition:border-color .25s}
+.card:hover{border-color:var(--rule-strong)}
+.card .tag{font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); display:block; margin:0 0 8px}
+.card p{margin:0 0 10px; font-size:15.5px}
+.card p:last-child{margin:0}
+.card .kv{display:block; font-size:12px; text-transform:uppercase; letter-spacing:.09em; color:var(--faint); margin:0 0 2px}
+.stackline{font-family:var(--mono); font-size:13px; color:var(--muted); line-height:1.65; margin-top:12px; padding-top:12px; border-top:1px solid var(--rule)}
+
+/* стек */
+.stackgrp{margin:0 0 16px; padding:0 0 16px; border-bottom:1px solid var(--rule)}
+.stackgrp:last-child{border-bottom:none; padding-bottom:0}
+.stackgrp .gname{font-size:14px; font-weight:620; margin:0 0 6px}
+.stackgrp .gbody{font-size:15px; color:var(--muted); line-height:1.7}
+
+/* таймлайн */
+.job{position:relative; padding:0 0 30px 22px; border-left:1px solid var(--rule)}
+.job:last-child{padding-bottom:0}
+.job::before{content:""; position:absolute; left:-4.5px; top:8px; width:8px; height:8px; border-radius:50%; background:var(--accent)}
+.job .when{font-family:var(--mono); font-size:12.5px; color:var(--faint); letter-spacing:.02em; display:block; margin:0 0 3px}
+.job .org{font-size:14.5px; color:var(--muted); margin:0 0 10px}
+.job ul{margin-top:8px}
+.job li{font-size:15.5px}
+
+/* границы */
+.limits{border:1px solid var(--rule); border-left:3px solid var(--accent); border-radius:10px; padding:20px 22px; background:var(--surface)}
+.limits ul{margin-bottom:0}
+.limits li{font-size:15.5px}
+
+footer{padding:40px 0 60px; border-top:1px solid var(--rule); color:var(--muted); font-size:14.5px}
+footer .fcontacts{display:flex; flex-wrap:wrap; gap:6px 16px; margin:0 0 12px; padding:0; list-style:none}
+footer a{color:var(--text)}
+
+/* появление секций */
+.rv{opacity:0; transform:translateY(8px); transition:opacity .5s ease,transform .5s ease}
+.rv.in{opacity:1; transform:none}
+@media (prefers-reduced-motion:reduce){ .rv{opacity:1;transform:none;transition:none} *{scroll-behavior:auto!important} }
+
+
+
+/* ─────────── печать ─────────── */
+@media print{
+  :root{--bg:#fff;--surface:#fff;--surface-2:#fff;--text:#000;--muted:#333;--faint:#555;--rule:#bbb;--rule-strong:#999;--accent:#1f3b57}
+  html[data-theme="dark"]{--bg:#fff;--surface:#fff;--text:#000;--muted:#333;--faint:#555;--rule:#bbb;--accent:#1f3b57}
+  body{font-size:10.5pt; line-height:1.45}
+  .topbar,.dl,.linkrow,.iconbtn{display:none!important}
+  .rv{opacity:1!important;transform:none!important}
+  .wrap{max-width:100%; padding:0}
+  section{padding:14pt 0; break-inside:auto}
+  header.hero{padding:0 0 6pt}
+  h1{font-size:22pt} h2{font-size:9pt; margin-bottom:10pt}
+  h3{font-size:12pt} .lead{font-size:13pt; margin-bottom:12pt}
+  .card,.limits{border:1px solid #bbb; background:#fff; break-inside:avoid; padding:10pt 12pt}
+  .stats{border:1px solid #bbb} .stat{padding:7pt}
+  .job{break-inside:avoid}
+  a{color:#000; background:none}
+  a[href^="http"]::after{content:" (" attr(href) ")"; font-size:8pt; color:#555}
+}
+</style>
+<noscript><style>.rv{opacity:1!important;transform:none!important}</style></noscript>
+</head>
+<body>
+
+<div class="topbar" id="topbar">
+  <div class="wrap">
+    <div class="brand"><b>Евгений Коробов</b> · AI Automation Engineer</div>
+    <div class="tools">
+      
+      <button class="iconbtn" id="themeBtn" type="button" title="Светлая / тёмная тема" aria-label="Переключить тему">
+        <svg class="ic-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        <svg class="ic-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<main class="wrap" id="doc">
+
+<header class="hero">
+  <h1>Коробов Евгений Владимирович</h1>
+  <p class="role">AI Automation Engineer · Архитектор AI-агентных систем</p>
+  <p class="meta">38 лет · Ростов-на-Дону · полная удалёнка, UTC+3 · в Ростове-на-Дону возможен гибрид или офис</p>
+  <ul class="contacts">
+    <li><a href="tel:+79094331312">+7 909 433-13-12</a></li>
+    <li><a href="mailto:ek@eko-res.ru">ek@eko-res.ru</a></li>
+    <li><a href="https://t.me/korobovevgen" rel="me noopener">t.me/korobovevgen</a></li>
+  </ul>
+  <div class="linkrow">
+    <a class="chip" href="https://www.linkedin.com/in/evgenykorobov/" rel="noopener"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 10.5v6M8 7.5v.01M12 16.5v-4a2 2 0 0 1 4 0v4"/></svg>LinkedIn</a>
+    <a class="chip" href="https://career.habr.com/zhekavenom" rel="noopener"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>Хабр Карьера</a>
+    <a class="chip" href="https://neiroaktiv.ru" rel="noopener"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18"/></svg>neiroaktiv.ru</a>
+    <a class="chip" href="https://github.com/evgeniykorobov-collab" rel="noopener"><svg viewBox="0 0 24 24"><path d="M9 19c-4 1.5-4-2.5-6-3m12 6v-3.9a3.4 3.4 0 0 0-.9-2.6c3-.3 6.2-1.5 6.2-6.7A5.2 5.2 0 0 0 18.9 5a4.9 4.9 0 0 0-.1-3.6s-1.1-.3-3.6 1.4a12.3 12.3 0 0 0-6.4 0C6.3 1.1 5.2 1.4 5.2 1.4A4.9 4.9 0 0 0 5.1 5a5.2 5.2 0 0 0-1.4 3.6c0 5.2 3.2 6.4 6.2 6.7a3.4 3.4 0 0 0-.9 2.6V22"/></svg>GitHub</a>
+  </div>
+  <div class="dl">
+    <a class="btn solid" href="files/korobov-ai-engineer.pdf" download><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></svg>Резюме: инженерная роль</a>
+    <a class="btn" href="files/korobov-team-lead.pdf" download><svg viewBox="0 0 24 24"><path d="M12 3v12M7 11l5 5 5-5M4 20h16"/></svg>Резюме: управленческая роль</a>
+  </div>
+</header>
+
+<section class="rv" id="intro">
+  <p class="lead">Двадцать лет я строил процессы людьми. Последние два года заменяю их системами.</p>
+  <div class="stats">
+    <div class="stat"><span class="n">43</span><span class="l">проекта за два года</span></div>
+    <div class="stat"><span class="n">≈400K</span><span class="l">строк кода</span></div>
+    <div class="stat"><span class="n">4</span><span class="l">бота в постоянной эксплуатации</span></div>
+    <div class="stat"><span class="n">6+</span><span class="l">боевых серверов в трёх юрисдикциях</span></div>
+    <div class="stat"><span class="n">350</span><span class="l">подчинённых в контакт-центре</span></div>
+    <div class="stat"><span class="n">30 млн ₽</span><span class="l">годовой оборот своей компании</span></div>
+  </div>
+  <p class="note" style="margin-top:14px">Python 280 000 строк, TypeScript и React 88 000, плюс HTML, SQL, Bash. Кодовая база из 1 500+ Python-модулей.</p>
+  <p>Строю AI-агентов не как эксперименты, а как рабочие места. Я знаю, что именно ломается в автоматизированном процессе, потому что двадцать лет отвечал за эти процессы лично — за отток, за время обслуживания, за конверсию, за P&amp;L.</p>
+  <p>Разрабатываю в паре с AI-агентами — это метод, а не оговорка. Моя часть: архитектура, декомпозиция, выбор стека, интеграция, деплой, эксплуатация, отладка продакшена, разбор инцидентов.</p>
+  <p>Ищу работу в AI-автоматизации, агентных системах и LLM-интеграциях. Основной формат — полная удалёнка.</p>
+</section>
+
+<section class="rv" id="built">
+  <h2>Что построил</h2>
+
+  <div class="card">
+    <span class="tag">B2B SaaS · в проде</span>
+    <h3>Multi-tenant CRM для отделов продаж</h3>
+    <p><span class="kv">Задача</span>Лиды приходят из Avito и корпоративной почты, теряются между каналами, менеджер собирает воронку руками.</p>
+    <p><span class="kv">Решение</span>Собственная платформа на отдельном домене с SSL: аккаунты с изоляцией данных, единая воронка из двух каналов, прайс-листы с ролевой наценкой, аналитика продаж, AI-бот обработки обращений, панель суперадминистратора. Правила фильтрации почты двух уровней — глобальные и переопределяющие их клиентские, с синхронизацией недостающих глобальных без потери локальных. Денормализация горячих полей списка под быструю выдачу. Slim-режим развёртывания для облегчённых инсталляций.</p>
+    <p><span class="kv">Плюс агент авто-онбординга</span>Обходит сайт нового клиента до 8 страниц, извлекает профиль компании и предметную область, обогащает данные через справочник по ИНН и настраивает бота под клиента — без ручной работы менеджера.</p>
+    <p class="stackline">FastAPI · Next.js 14 · PostgreSQL · Redis · Celery · WebSocket · Docker Compose · nginx · Let's Encrypt</p>
+  </div>
+
+  <div class="card">
+    <span class="tag">RAG · production</span>
+    <h3>Векторный поиск по корпусу знаний, собранный без фреймворков</h3>
+    <p><span class="kv">Задача</span>Консультант должен отвечать по корпусу лекций, таблиц и документов, а не выдумывать из памяти модели.</p>
+    <p><span class="kv">Решение</span>Полный контур с нуля: ingest → чанкинг → эмбеддинги → ChromaDB → query-слой → HTTP-сервер поиска. Мультиязычные эмбеддинги multilingual-e5-base через sentence-transformers с корректными префиксами query/passage и нормализацией векторов. Чанкинг 1200 символов с перекрытием 400 — треть, выбрана под структуру корпуса. Инкрементальная переиндексация по источнику: старые чанки документа удаляются перед вставкой новых, живой индекс при этом не ломается. Метаданные и фильтрация по коллекциям, манифест проиндексированного со статистикой чанков.</p>
+    <p><span class="kv">Почему без LangChain</span>Сделано на ChromaDB и sentence-transformers напрямую. Это значит, что я знаю, что фреймворк делает под капотом, — потому что делал это руками.</p>
+    <p class="stackline">ChromaDB · sentence-transformers · multilingual-e5 · Whisper · Python</p>
+  </div>
+
+  <div class="card">
+    <span class="tag">Надёжность LLM</span>
+    <h3>Мультипровайдерный роутинг с автоматическим fallback</h3>
+    <p><span class="kv">Задача</span>Сервис на одном LLM-провайдере ложится целиком, когда провайдер отказывает, дорожает или блокирует аккаунт.</p>
+    <p><span class="kv">Решение</span>Маршрутизация между Anthropic, Google Vertex, OpenAI, Groq, Cerebras, DeepSeek, OpenRouter и Ollama с приоритетами. Конфигурации моделей и порядок живут в базе данных, а не в коде: замена провайдера — это UPDATE, а не деплой. Отдельно решена практическая проблема моделей с thinking-токенами, которые съедают лимит и обрывают длинные JSON-ответы.</p>
+    <p><span class="kv">Проверено боем</span>Основного провайдера заблокировали без предупреждения. Все зависимые сервисы переведены на резервные модели за один день, без простоя. Контур деградации был спроектирован до инцидента, а не после.</p>
+    <p class="stackline">Python · httpx · PostgreSQL · Anthropic SDK · Vertex AI · OpenAI SDK · Groq · Cerebras · DeepSeek · Ollama</p>
+  </div>
+
+  <div class="card">
+    <span class="tag">Агентные контуры</span>
+    <h3>Долговременная память и самоанализ агентов</h3>
+    <p><span class="kv">Задача</span>Диалоговый агент забывает клиента между сессиями и не замечает, когда сам себе противоречит.</p>
+    <p><span class="kv">Решение</span>Сквозной профиль пользователя между сессиями: накопленные факты, история обращений, контекст прошлых диалогов — агент помнит клиента спустя месяцы. Отдельно решена эксплуатационная часть: рост профиля не разрушает качество ответов и не съедает контекстное окно. Поверх — контур самопроверки до выдачи ответа по формализованному набору критериев: противоречия с ранее сказанным, сглаживание вместо прямого ответа, деградация связности. При срабатывании агент переформулирует сам.</p>
+    <p class="stackline">Python · Anthropic SDK · PostgreSQL · агентные протоколы</p>
+  </div>
+
+  <div class="card">
+    <span class="tag">Юрист и бухгалтер</span>
+    <h3>Два самых дорогих внешних подряда, переведённые в агентов</h3>
+    <p><span class="kv">AI-юрист</span>Ведёт компанию целиком: договорная работа, претензии, процессуальные документы, позиция по делу, сопровождение арбитражных и гражданских дел. Работает на связке структурированной карточки дела, библиотеки шаблонов и поиска по нормам. Python-сборка готовых документов из карточки и шаблона, синхронизация материалов в Notion и облако.</p>
+    <p><span class="kv">AI-бухгалтер</span>Ведёт учётный контур и готовит ответы на требования налоговой: разбор требования, подбор применимых норм, формирование пояснений, сборка комплекта подтверждающих документов.</p>
+    <p><span class="kv">Почему это сильный кейс</span>Применяется в собственных компаниях, а не на демо-данных. Агент не снимает ответственность с человека, но снимает объём и держит сроки — а сроки по налоговым требованиям и процессуальным документам жёсткие.</p>
+    <p class="stackline">Python · Notion API · шаблонизация документов · LLM-контур</p>
+  </div>
+
+  <div class="card">
+    <span class="tag">Продукт целиком</span>
+    <h3>Погодный хаб для ветровых спортов: веб, мобайл, аналитика</h3>
+    <p><span class="kv">Задача</span>Свести прогнозы из нескольких независимых источников в решение «ехать или не ехать» под конкретную дисциплину.</p>
+    <p><span class="kv">Решение</span>Агрегация прогнозов, приведение к единой модели, расчёт производных показателей, графики и визуализации, алерты по пороговым условиям. Backend на FastAPI и PostgreSQL с миграциями Alembic и фоновыми задачами на Celery. Веб-приложение на React и мобильное на React Native с push через Firebase — оба поверх одного аналитического ядра. Приём платежей.</p>
+    <p class="stackline">FastAPI · PostgreSQL · Alembic · Celery · React · React Native · Expo · Firebase · Recharts · Docker</p>
+  </div>
+
+  <div class="card">
+    <span class="tag">Платёжный сервис</span>
+    <h3>VPN-сервис с приёмом платежей и редакторским контуром</h3>
+    <p><span class="kv">Задача</span>Выдавать конфигурации, принимать оплату и вести канал без ручной работы.</p>
+    <p><span class="kv">Решение</span>Управление узлами Xray и WireGuard, автоматическая выдача конфигураций пользователям, приём платежей через ЮKassa. Редакторский контур на LLM с автопостингом в канал и мультипровайдерным fallback драфтера — именно он и пережил блокировку основного провайдера.</p>
+    <p class="stackline">Python · Pyrogram · Xray · WireGuard · ЮKassa · systemd · nginx</p>
+  </div>
+
+  <div class="card">
+    <span class="tag">Обратная разработка</span>
+    <h3>Разбор проприетарного формата чертежей КОМПАС-3D</h3>
+    <p><span class="kv">Задача</span>База чертежей на 2 000+ единиц с дубликатами и устаревшими версиями; КОМПАС на машине не всегда установлен.</p>
+    <p><span class="kv">Решение</span>Разбор <code>.cdw</code> напрямую на чистом Python: ZIP-контейнер, многопоточный zlib, UTF-16. Поверх — аудит базы: поиск дубликатов по паре «папка + наименование», выбор актуальной версии по дате модификации, автоматический перенос устаревших в карантин, пакетная правка штампов. Альтернативная ветка через COM API самого КОМПАСа.</p>
+    <p class="stackline">Python · zlib · UTF-16 · COM API · пакетная обработка</p>
+  </div>
+
+  <div class="card">
+    <span class="tag">Локальный контур</span>
+    <h3>Голосовой ввод и расшифровка речи</h3>
+    <p><span class="kv">Задача</span>Диктовать вместо набора и превращать записи встреч и лекций в текст, пригодный для дальнейшей обработки.</p>
+    <p><span class="kv">Решение</span>Локальное распознавание на Whisper с выбором размера модели под задачу, обработка длинных записей, выгрузка результата в рабочий формат. Небольшой по объёму проект, но закрывает ежедневную задачу и служит источником данных для RAG-индекса.</p>
+    <p class="stackline">Whisper · PyTorch · FFmpeg · Python</p>
+  </div>
+
+  <p class="note">Кроме этого: агент авто-онбординга, фабрика AI-сущностей из общего пула навыков, оркестратор задач через Telegram и Notion, парсер банковских выписок, AI-планировщик финансов (в разработке), автопубликатор контента по расписанию, система ведения судебных дел с генерацией процессуальных документов, развёртывание и эксплуатация self-hosted агентного фреймворка, разработка адаптера подписочного доступа уровня фреймворка.</p>
+</section>
+
+<section class="rv" id="stack">
+  <h2>Технический стек</h2>
+
+  <div class="stackgrp"><div class="gname">Агентные системы</div><div class="gbody">долговременная память диалога между сессиями, контуры самоанализа и саморефлексии агента, оркестрация и маршрутизация задач между агентами, переиспользуемая база skill-модулей, пайплайны генерации документов из баз данных, агентная бизнес-аналитика; развёртывание и эксплуатация self-hosted агентного фреймворка, разработка инструментария и адаптеров уровня фреймворка</div></div>
+
+  <div class="stackgrp"><div class="gname">AI / LLM</div><div class="gbody">Anthropic SDK, Google GenAI и Vertex AI, OpenAI, Groq, Cerebras, DeepSeek, OpenRouter, Ollama; промпт-инжиниринг и агентные протоколы, мультипровайдерный fallback и роутинг провайдеров, долговременная память диалога, контроль расхода токенов и стоимости, работа с контекстным окном и thinking-токенами</div></div>
+
+  <div class="stackgrp"><div class="gname">RAG и векторный поиск</div><div class="gbody">ChromaDB, sentence-transformers, multilingual-e5, эмбеддинги и нормализация векторов, стратегии чанкинга и перекрытия чанков, префиксы query/passage, инкрементальная переиндексация, метаданные и фильтры, retrieval по мультиязычному корпусу</div></div>
+
+  <div class="stackgrp"><div class="gname">Backend</div><div class="gbody">Python, FastAPI, Flask, Django, Pydantic, SQLAlchemy, Alembic и миграции, Celery, APScheduler, asyncio, httpx, aiohttp, requests, REST, WebSocket</div></div>
+
+  <div class="stackgrp"><div class="gname">Базы данных</div><div class="gbody">PostgreSQL (psycopg, asyncpg), Redis, SQLite; денормализация горячих полей, multi-tenant и изоляция данных по аккаунтам</div></div>
+
+  <div class="stackgrp"><div class="gname">Данные и аналитика</div><div class="gbody">обработка и структурирование больших объёмов данных, агрегация из разнородных источников, расчёт производных показателей, отчёты и дашборды, визуализация (Recharts, matplotlib), цифровизация разрозненных баз с выгрузкой в документы</div></div>
+
+  <div class="stackgrp"><div class="gname">ML и медиа</div><div class="gbody">PyTorch, HuggingFace transformers, Stable Diffusion, Whisper и STT, Pillow, FFmpeg, numpy, pandas, matplotlib</div></div>
+
+  <div class="stackgrp"><div class="gname">Frontend и мобильное</div><div class="gbody">React, Next.js, TypeScript, Vite, Tailwind, shadcn/ui, Framer Motion, Recharts, Zustand; React Native, Expo, Firebase Cloud Messaging</div></div>
+
+  <div class="stackgrp"><div class="gname">Инфраструктура</div><div class="gbody">Linux, Docker, Docker Compose, nginx, systemd (юниты и drop-in конфигурация), деплой по SSH, Let's Encrypt, Cloudflare (Workers, Argo Tunnel), DigitalOcean, Яндекс.Облако, мониторинг сервисов, ротация секретов, работа с инцидентами в проде</div></div>
+
+  <div class="stackgrp"><div class="gname">Telegram и интеграции</div><div class="gbody">aiogram, python-telegram-bot, Pyrogram — боты, платежи, вебхуки, голосовой ввод, инлайн-интерфейсы; Notion API, ЮKassa, Firebase, Avito, ATI.SU, Telegram Payments</div></div>
+
+  <div class="stackgrp"><div class="gname">Автоматизация и парсинг</div><div class="gbody">Playwright, BeautifulSoup, Selenium, парсинг банковских выписок, обратная разработка бинарных форматов (zlib, UTF-16), автоматизация через COM API</div></div>
+
+  <div class="stackgrp"><div class="gname">Практики</div><div class="gbody">pytest, git, code review, документирование архитектуры, управление секретами, разбор инцидентов в проде</div></div>
+
+  <div class="stackgrp"><div class="gname">Вне разработки</div><div class="gbody">маркетинговые стратегии, семантическое ядро и SEO, контекстная реклама, посадочные страницы, копирайтинг; логотипы, инфографика, типографика, вёрстка; 1С и первичная документация, налоговая отчётность, бюджетирование, дебиторская задолженность; Гражданский, Арбитражный процессуальный и Гражданский процессуальный кодексы, ведение арбитражных и гражданских дел</div></div>
+</section>
+
+<section class="rv" id="exp">
+  <h2>Опыт работы</h2>
+
+  <div class="job">
+    <span class="when">2025 — настоящее время</span>
+    <h3>НейроАктив / FuturAI — основатель, AI-архитектор</h3>
+    <p class="org">AI-автоматизация для малого и среднего бизнеса · <a href="https://neiroaktiv.ru" rel="noopener">neiroaktiv.ru</a></p>
+    <p>Собственная продуктовая линия: AI-агенты, заменяющие линейный персонал в продажах, поддержке и операционной работе.</p>
+    <ul>
+      <li><strong>B2B SaaS CRM для отделов продаж</strong> — флагманский продукт в проде: аккаунты с изоляцией данных, лиды из Avito и почты, прайс-листы, AI-бот, панель суперадминистратора</li>
+      <li><strong>AI-консультант в проде</strong> — 622 модуля Python, 135 000 строк: диалоговый контур с долговременной памятью, RAG-поиск по корпусу, генерация PDF-отчётов, приём платежей, админ-панель</li>
+      <li><strong>RAG-контур с нуля</strong> под этого консультанта, с инкрементальной переиндексацией, не ломающей живой индекс</li>
+      <li><strong>Цепочка отказоустойчивости LLM в базе данных</strong> — провайдер меняется и переупорядочивается без деплоя</li>
+      <li><strong>Фабрика AI-сущностей</strong> — общий пул навыков, из которого собираются дочерние агенты; 42 модуля в реестре с продуктовой матрицей</li>
+      <li><strong>Оркестратор задач</strong> — голос или текст в Telegram проходит классификацию, маршрутизируется в проект, исполняется агентом и возвращается отчётом</li>
+      <li><strong>Погодный хаб</strong> для ветровых спортов: веб и мобильное приложение поверх одного аналитического ядра</li>
+      <li><strong>VPN-сервис</strong> — узлы Xray и WireGuard, автовыдача конфигураций, платежи через ЮKassa, редакторский контур на LLM</li>
+      <li><strong>Эксплуатация</strong> — 6+ боевых серверов: провижининг, systemd-юниты, nginx, деплой по SSH, мониторинг, ротация секретов, разбор инцидентов</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <span class="when">март 2024 — настоящее время</span>
+    <h3>ООО «ПОСЕЙДОН» — учредитель, генеральный директор</h3>
+    <p class="org">Обслуживание и ремонт сварочной техники для пластиковых труб, B2B</p>
+    <ul>
+      <li>Построил все бизнес-процессы с нуля: продажи, маркетинг, цепочки поставок, отгрузки, учёт</li>
+      <li>Вывел годовой оборот до <strong>30 млн ₽</strong></li>
+      <li>Создал проектный отдел с базой чертежей на 2 000+ единиц запчастей</li>
+      <li>Обеспечил стабильно 8 заявок в день на протяжении более 12 месяцев</li>
+      <li>Заключил 150+ договоров со строительными компаниями Юга России и Северного Кавказа</li>
+      <li>Веду учёт в 1С, расчётный счёт, налоговую отчётность и финансовое планирование; юридическое сопровождение — договорная работа, арбитражные дела, процессуальные документы</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <span class="when">март 2020 — февраль 2024</span>
+    <h3>ООО «ЭКОРЕСУРС» — учредитель, директор</h3>
+    <p class="org">Комплектация магистральных инженерных систем, B2B</p>
+    <ul>
+      <li>Построил бизнес-процессы организации с нуля</li>
+      <li>Вывел годовой оборот до 15 млн ₽</li>
+      <li>Обеспечил 10 заявок в день на протяжении более 36 месяцев</li>
+      <li>Заключил 300+ договоров со строительными компаниями Юга и Северного Кавказа</li>
+      <li>Управлял дебиторской задолженностью, бюджетированием и юридической защитой компании в судах</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <span class="when">август 2016 — февраль 2020</span>
+    <h3>ООО «ИСК СтройЮгКомплект» — соучредитель, коммерческий директор</h3>
+    <p class="org">Комплектация магистральных инженерных систем, B2B</p>
+    <ul>
+      <li>Увеличил годовой оборот денежных средств <strong>более чем в 10 раз</strong></li>
+      <li>Закрыл сделок на сумму свыше <strong>150 000 000 ₽</strong></li>
+      <li>Обеспечил 13 заявок в день на протяжении 20 месяцев</li>
+      <li>Разработал и внедрил собственную CRM и базу регистрации обращений с сайтов и телефона</li>
+      <li>Внедрил онлайн-просчёт заказа — расчёт стоимости прямо во время звонка или встречи</li>
+      <li>Собрал базу 1 500 активных клиентов и 20 поставщиков, 200+ договоров</li>
+      <li>Запустил 6 посадочных страниц, 2 сайта, 3 страницы на торговых площадках с 10 000+ позиций; семантическое ядро, Яндекс.Директ и Google Adwords по регионам Юга и Северного Кавказа</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <span class="when">апрель 2015 — апрель 2016</span>
+    <h3>ПАО «Ростелеком» — руководитель группы клиентского опыта и обслуживания</h3>
+    <p class="org">Телекоммуникации</p>
+    <ul>
+      <li>Полностью нормализовал абонентский отток до целевых показателей компании за полгода</li>
+      <li>Разработал и внедрил схему работы с дебиторской задолженностью: снижены и сумма долга, и число клиентов-должников</li>
+      <li>Централизовал архивы абонентских дел из более чем 50 населённых пунктов</li>
+      <li>Управлял сетью центров продаж и обслуживания Ростовской области: стандарты, срезы знаний, «тайный покупатель», подбор персонала</li>
+      <li>Анализировал каналы оплат и самообслуживания: Сбербанк, Почта России, ОСМП, CyberPlat, Comepay; сайт, личный кабинет, IVR</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <span class="when">март 2006 — июль 2012</span>
+    <h3>Tele2 Россия — руководитель контакт-центра, Ростов-на-Дону</h3>
+    <p class="org">Путь внутри компании: оператор → супервизор → руководитель группы (30 человек) → руководитель бэк-офиса (50 человек) → руководитель контакт-центра (350 человек)</p>
+    <p><strong>Контакт-центр, 350 подчинённых.</strong> Круглосуточное обслуживание B2B и B2C 28 регионов России.</p>
+    <ul>
+      <li>Снизил ежемесячный отток персонала с <strong>7,5% до 1,2%</strong> через концепцию внутреннего сообщества: корпоративный журнал, ценностные коммуникации, командообразование, HR-бренд через внешнюю медийную активность</li>
+      <li>Сократил среднее время обслуживания клиента с <strong>120 до 100 секунд</strong></li>
+      <li>Поднял средний процент премии, выводимый из показателей эффективности, с <strong>38% до 57%</strong></li>
+      <li>Внедрил real-time мониторинг: интерфейс визуализации индивидуальных и групповых показателей на больших ЖК-дисплеях в операторских залах</li>
+      <li>Внедрил отчётность с дискретностью 15 минут и регламент трафик-менеджмента, включая работу при превышении реального трафика над прогнозом</li>
+      <li>Разработал процедуры эскалации массовых проблем и антикризисного управления при дефиците персонала</li>
+    </ul>
+    <p><strong>Бэк-офис, 50 подчинённых, построен с нуля.</strong> Письменные претензии абонентов 36 регионов.</p>
+    <ul>
+      <li>Организовал подразделение с нуля: подбор, структура, процессы, кроссфункциональное взаимодействие</li>
+      <li>Поднял долю удовлетворённых решением с <strong>65% до 85%</strong> за полгода</li>
+      <li>Выстроил обратную связь: 60% претензий за 24 часа, 80% — за 48, 96% — за 72</li>
+      <li>Наладил работу с претензиями на спам и мошенничество во взаимодействии с АРОС, Мегафон, МТС, Смартс, НСС; поиск платежей с основными платёжными системами</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <span class="when">2013 — 2016 · параллельные роли</span>
+    <h3>ООО «Авенир» — исполнительный директор · ООО «Высоцкий Консалтинг» — руководитель отдела продаж</h3>
+    <p class="org">Строительные материалы B2B · бизнес-консалтинг и тренинги</p>
+    <ul>
+      <li>Разработал функционал просчёта стоимости трубы из сырья по заданным параметрам — расчёт стал возможен онлайн, во время звонка</li>
+      <li>Вывел продукты компании на первые места среди конкурентов на площадках FIS и «Пульс цен»</li>
+      <li>Построил отдел продаж: набор, планёрки, цели, контроль исполнения, управленческий коучинг, должностные инструкции, KPI-отчётность, мотивация</li>
+      <li>Увеличил клиентскую базу на 30%, организовал и провёл 3 тренинга из трёх уикендов, вёл семинары в роли тренера</li>
+    </ul>
+  </div>
+
+  <div class="job">
+    <span class="when">2020 — настоящее время</span>
+    <h3>Психолог-консультант — частная практика</h3>
+    <p class="org">Коррекция состояний, выгорание, зависимости, профориентация, сопровождение особенных детей</p>
+    <ul>
+      <li>Провёл более 200 клиентов; более 150 освоили инструменты психологического и эмоционального самоконтроля</li>
+      <li>Разработал собственный подход к диагностике и коррекции состояний на основе работ Хорни, Юнга, Фрейда, Ялома, Корчака, ван дер Колка</li>
+      <li>Профпереподготовка по суицидологии, 2024</li>
+    </ul>
+  </div>
+</section>
+
+<section class="rv" id="mgmt">
+  <h2>Управленческий результат в цифрах</h2>
+  <p class="sub">Двадцать лет управление строилось на данных: телеком-показатели по 28–36 регионам, причины оттока, воронки продаж, складские остатки, дебиторская задолженность. Отчётность, разбор просадок и реакция на них.</p>
+  <div class="stats" style="margin-top:22px">
+    <div class="stat"><span class="n">7,5% → 1,2%</span><span class="l">отток персонала в месяц, Tele2</span></div>
+    <div class="stat"><span class="n">120 → 100 сек</span><span class="l">среднее время обслуживания</span></div>
+    <div class="stat"><span class="n">38% → 57%</span><span class="l">средний процент премии по KPI</span></div>
+    <div class="stat"><span class="n">65% → 85%</span><span class="l">удовлетворённость решением претензии</span></div>
+    <div class="stat"><span class="n">×10</span><span class="l">рост годового оборота компании</span></div>
+    <div class="stat"><span class="n">150+ млн ₽</span><span class="l">закрытых сделок</span></div>
+  </div>
+  <h4>Формальная управленческая подготовка</h4>
+  <p class="sub">Коучинг как модель управления персоналом (ЮФУ, 2011) · «Командообразование», «Мотивирование», «Наставничество», «Управление исполнением» (RQlab, 2009) · «Финансы для нефинансовых менеджеров» (EXECT, 2011). Плюс практика: фасилитация, ассессменты, публичные выступления, антикризисное управление, кроссфункциональные процессы.</p>
+</section>
+
+<section class="rv" id="edu">
+  <h2>Образование</h2>
+  <p><strong>Южный федеральный университет</strong> — химик, кафедра физической и коллоидной химии, 2005–2011.<br>
+  Специализация — <strong>численные методы в химии</strong>: вычислительное моделирование, высшая математика в химии. Область интересов: квантовая химия, строение вещества, кристаллохимия, ядерные реакции.</p>
+  <p><strong>Донской государственный технический университет</strong> — аспирантура, не окончена.</p>
+  <p><strong>Южный федеральный университет</strong> — преподаватель, дополнительное к высшему, 2005–2010.</p>
+  <p class="note">Профпереподготовка: суицидология (2024), психолого-педагогическое сопровождение миграционных процессов (2024).<br>
+  Языки: русский — родной, немецкий — B1, английский — свободное чтение технической документации.</p>
+</section>
+
+<section class="rv" id="limits">
+  <h2>Честно о границах</h2>
+  <div class="limits">
+    <p>Резюме без этого блока стоит дешевле, чем с ним. Вот чего у меня нет — чтобы это не выяснялось на техническом интервью.</p>
+    <ul>
+      <li><strong>LangChain, LangGraph, LlamaIndex</strong> — не использую. RAG собран без них, напрямую на ChromaDB и sentence-transformers. Понимаю, что фреймворк делает под капотом, но опыта работы с самим фреймворком нет</li>
+      <li><strong>Kubernetes</strong> — нет. Инфраструктура на Docker Compose и systemd</li>
+      <li><strong>Реранкинг и формальная оценка retrieval</strong> — нет. Только векторный поиск, качество оценивалось вручную</li>
+      <li><strong>LLM-observability</strong> (Langfuse и подобное) — нет</li>
+      <li><strong>Английский разговорный</strong> — нет. Свободно читаю техническую документацию, но собеседование и созвоны на английском не потяну</li>
+      <li><strong>Руководство командами разработки в найме</strong> — нет. Двадцать лет управления — это контакт-центр, бэк-офис, отделы продаж и собственные компании, не команда инженеров в продуктовой компании</li>
+      <li><strong>Промышленная разработка десять лет</strong> — нет и не заявляю. Как инженер работаю два года, разрабатываю в паре с AI-агентами. Моя часть — архитектура, интеграция, деплой, эксплуатация, разбор инцидентов</li>
+    </ul>
+  </div>
+  <p class="note" style="margin-top:18px">Готов к техническому интервью с разбором любого проекта: архитектура, код, деплой, инциденты в проде и как они разбирались.</p>
+</section>
+
+
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="fcontacts">
+      <li><a href="tel:+79094331312">+7 909 433-13-12</a></li>
+      <li><a href="mailto:ek@eko-res.ru">ek@eko-res.ru</a></li>
+      <li><a href="https://t.me/korobovevgen" rel="me noopener">t.me/korobovevgen</a></li>
+      <li><a href="https://www.linkedin.com/in/evgenykorobov/" rel="noopener">LinkedIn</a></li>
+      <li><a href="https://career.habr.com/zhekavenom" rel="noopener">Хабр Карьера</a></li>
+    </ul>
+    <p style="margin:0">Коробов Евгений Владимирович · Ростов-на-Дону · полная удалёнка, UTC+3<br>
+    Обновлено <span id="upd">11 августа 2026</span></p>
+  </div>
+</footer>
+
+
+
+<script>
+(function(){
+  "use strict";
+  /* тема */
+  var root=document.documentElement, KEY="cv-theme";
+  try{ var saved=localStorage.getItem(KEY); if(saved) root.setAttribute("data-theme",saved); }catch(e){}
+  var tb=document.getElementById("themeBtn");
+  if(tb) tb.addEventListener("click",function(){
+    var cur=root.getAttribute("data-theme");
+    if(!cur) cur=matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light";
+    var next=cur==="dark"?"light":"dark";
+    root.setAttribute("data-theme",next);
+    try{ localStorage.setItem(KEY,next); }catch(e){}
+  });
+
+  /* линия под верхней панелью при скролле */
+  var bar=document.getElementById("topbar");
+  var onScroll=function(){ bar.classList.toggle("scrolled", window.scrollY>8); };
+  onScroll(); addEventListener("scroll",onScroll,{passive:true});
+
+  /* появление секций */
+  var items=document.querySelectorAll(".rv");
+  if("IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } });
+    },{rootMargin:"0px 0px -8% 0px",threshold:.06});
+    items.forEach(function(el){ io.observe(el); });
+  }else{ items.forEach(function(el){ el.classList.add("in"); }); }
+})();
+
+</script>
+</body>
+</html>
