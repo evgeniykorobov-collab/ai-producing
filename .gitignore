@@ -6,5 +6,7 @@ src/
 build.py
 README.md
 docs/razbor-*.html
+private/
+*.url
 __pycache__/
 *.pyc
