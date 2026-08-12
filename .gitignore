@@ -4,6 +4,7 @@
 
 src/
 build.py
+deploy_private.ps1
 README.md
 docs/razbor-*.html
 private/
