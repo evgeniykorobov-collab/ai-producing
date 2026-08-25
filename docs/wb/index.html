@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Прозрачный канал блогеров</title>
+<meta name="description" content="Как сделать канал блогеров и скаутов прозрачным: откуда берётся привязка продажи к блогеру, лестница уровней вместо руководителя, риски по закону о рекламе и порядок запуска.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Прозрачный канал блогеров">
+<meta property="og:description" content="Что видно и что не видно в канале блогеров, как считается результат каждого, и в каком порядке это запускается.">
+<meta property="og:locale" content="ru_RU">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%A7%BE%3C/text%3E%3C/svg%3E">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body, h1, h2, h3, p, dl, dd, figure { margin: 0; }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@500;600;700;800&family=Spectral:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
+
+<style>
+  :root {
+    --ground:      #F7F4F8;
+    --surface:     #FFFFFF;
+    --surface-alt: #F1ECF3;
+    --ink:         #17121D;
+    --muted:       #6B6478;
+    --line:        #E3DBE8;
+    --line-strong: #C9BED2;
+    --accent:      #A81B57;
+    --accent-soft: #F7E6ED;
+    --signal:      #1F6F5C;
+    --signal-soft: #E2F0EB;
+    --warn:        #9A5B12;
+    --warn-soft:   #F7EBDB;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #14111A;
+      --surface:     #1C1824;
+      --surface-alt: #241E2E;
+      --ink:         #F2EEF6;
+      --muted:       #A79FB4;
+      --line:        #2F2839;
+      --line-strong: #453C52;
+      --accent:      #FF7BAA;
+      --accent-soft: #37202B;
+      --signal:      #6BD0B1;
+      --signal-soft: #17302B;
+      --warn:        #E0A867;
+      --warn-soft:   #2E2417;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:      #14111A;
+    --surface:     #1C1824;
+    --surface-alt: #241E2E;
+    --ink:         #F2EEF6;
+    --muted:       #A79FB4;
+    --line:        #2F2839;
+    --line-strong: #453C52;
+    --accent:      #FF7BAA;
+    --accent-soft: #37202B;
+    --signal:      #6BD0B1;
+    --signal-soft: #17302B;
+    --warn:        #E0A867;
+    --warn-soft:   #2E2417;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Spectral", Georgia, serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 6vw, 5rem) clamp(1.1rem, 4vw, 2.5rem) 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(3rem, 6vw, 4.5rem);
+  }
+
+  h1, h2, h3, .eyebrow, th, .door-title, .num, .pill, .core-name {
+    font-family: "Golos Text", "Segoe UI", Arial, sans-serif;
+  }
+  h1 {
+    font-size: clamp(2rem, 6.5vw, 3.1rem);
+    font-weight: 800;
+    line-height: 1.06;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    margin: 0;
+  }
+  h2 {
+    font-size: clamp(1.35rem, 3.6vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+    margin: 0;
+  }
+  h3 {
+    font-size: 1.02rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 0;
+  }
+  p { margin: 0; }
+  strong { font-weight: 500; color: var(--ink); }
+
+  .eyebrow {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .hero { display: flex; flex-direction: column; gap: 1.5rem; }
+  .hero .lede {
+    font-size: clamp(1.05rem, 2.6vw, 1.2rem);
+    color: var(--muted);
+    max-width: 34em;
+  }
+  .hero-rule {
+    height: 3px;
+    background: var(--accent);
+    width: 4.5rem;
+    border-radius: 2px;
+  }
+  .now {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+    margin: 0;
+  }
+  .now div { background: var(--surface); padding: 1rem 1.1rem; }
+  .now dt {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+  .now dd {
+    margin: 0;
+    font-family: "Golos Text", "Segoe UI", Arial, sans-serif;
+    font-weight: 700;
+    font-size: 1.3rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .now dd small { display: block; font-size: 0.8rem; font-weight: 500; color: var(--muted); letter-spacing: 0; margin-top: 0.15rem; }
+
+  section { display: flex; flex-direction: column; gap: 1.4rem; }
+  section > p { max-width: 36em; }
+
+  .doors {
+    border: 1px solid var(--line-strong);
+    border-radius: 4px;
+    background: var(--surface);
+    overflow: hidden;
+  }
+  .doors-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--line);
+  }
+  .door { background: var(--surface); padding: 1.15rem 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .door-title { font-weight: 700; font-size: 0.95rem; }
+  .door-where {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.66rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--accent);
+  }
+  .door p.door-text { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+  .core {
+    background: var(--accent-soft);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 1.3rem 1.2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .core-name { font-weight: 800; font-size: 1.05rem; letter-spacing: -0.01em; }
+  .chain {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.72rem;
+    line-height: 2;
+    color: var(--muted);
+  }
+  .chain b { color: var(--ink); font-weight: 700; }
+  .outs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); }
+  .out { background: var(--surface); padding: 0.85rem 1.1rem; }
+  .out span {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .out p { font-family: "Golos Text", "Segoe UI", Arial, sans-serif; font-size: 0.88rem; font-weight: 600; margin-top: 0.2rem; }
+
+  .layers { display: flex; flex-direction: column; gap: 0.75rem; }
+  .layer {
+    display: grid;
+    grid-template-columns: 2.6rem 1fr;
+    gap: 0 1rem;
+    align-items: start;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: 3px;
+    padding: 1rem 1.15rem;
+  }
+  .layer.secondary { border-left-color: var(--line-strong); }
+  .num {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    grid-row: span 3;
+  }
+  .layer.secondary .num { color: var(--muted); }
+  .layer p.layer-text { grid-column: 2; font-size: 0.92rem; color: var(--muted); line-height: 1.55; margin-top: 0.3rem; }
+  .layer .tag {
+    grid-column: 2;
+    margin-top: 0.5rem;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 34rem; }
+  th, td { text-align: left; padding: 0.8rem 1rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.64rem;
+    font-weight: 500;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--surface-alt);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.q {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-weight: 700;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+    width: 3rem;
+  }
+  td.what { font-family: "Golos Text", "Segoe UI", Arial, sans-serif; font-weight: 600; font-size: 0.92rem; }
+  td.why { font-size: 0.9rem; color: var(--muted); }
+  tbody tr.later td.q { color: var(--muted); }
+
+  .note {
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1.2rem 1.3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    background: var(--surface);
+  }
+  .note.honest { background: var(--warn-soft); border-color: transparent; }
+  .note.money { background: var(--signal-soft); border-color: transparent; }
+  .note p { font-size: 0.95rem; }
+  .pill {
+    align-self: flex-start;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.55rem;
+    border-radius: 2px;
+    background: var(--surface);
+    color: var(--ink);
+  }
+  ul { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: 0.45rem; }
+  li { font-size: 0.95rem; }
+  li::marker { color: var(--accent); }
+
+  .ask { display: grid; grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr)); gap: 0.9rem; }
+  .ask-card {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .ask-card span {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .ask-card p { font-size: 0.9rem; color: var(--muted); }
+  .ask-card h3 { font-size: 0.95rem; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 1.4rem;
+    font-size: 0.85rem;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .zones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .zone { background: var(--surface); padding: 1.1rem 1.15rem; display: flex; flex-direction: column; gap: 0.35rem; }
+  .zone.dim { background: var(--accent-soft); }
+  .zone-label {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .zone.dim .zone-label { color: var(--accent); }
+  .zone p.zone-text { font-size: 0.88rem; color: var(--muted); line-height: 1.5; }
+
+  .ladder {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .rung {
+    background: var(--surface);
+    display: grid;
+    grid-template-columns: 2.2rem 1fr;
+    gap: 0 0.9rem;
+    padding: 0.95rem 1.1rem;
+    align-items: start;
+  }
+  .rung.top { background: var(--accent-soft); }
+  .rung .step {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    padding-top: 0.2rem;
+  }
+  .rung.top .step { color: var(--accent); }
+  .rung-name { font-family: "Golos Text", "Segoe UI", Arial, sans-serif; font-weight: 700; font-size: 0.95rem; }
+  .rung-gain { font-size: 0.88rem; color: var(--muted); margin-top: 0.2rem; }
+  .rung-cond {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-top: 0.4rem;
+  }
+  .rung.top .rung-cond { color: var(--ink); }
+
+  .two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+
+  @media (max-width: 34rem) {
+    .doors-row, .outs, .zones, .two-up { grid-template-columns: 1fr; }
+    body { font-size: 16px; }
+  }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">Направление «блогеры и скауты» · предложение</p>
+    <h1>Перестать угадывать, кто из блогеров зарабатывает, а кто съедает</h1>
+    <div class="hero-rule"></div>
+    <p class="lede">Внутри Wildberries у тебя светло: карточки, реклама, воронка — этим занят человек, и это работает. Темнота начинается ровно за границей площадки. Система ставится только туда.</p>
+
+    <div class="zones">
+      <div class="zone">
+        <p class="zone-label">Внутри Wildberries — видно</p>
+        <p class="door-title">Карточки, реклама, воронка</p>
+        <p class="zone-text">Здесь цифры есть и человек с ними справляется. Сюда система не лезет и ничего не ломает.</p>
+      </div>
+      <div class="zone dim">
+        <p class="zone-label">За границей площадки — темно</p>
+        <p class="door-title">Блогеры, скауты, отгруженный товар</p>
+        <p class="zone-text">Коробка уехала, ролик вышел или не вышел, деньги ушли — а что из этого вернулось продажами, не знает никто.</p>
+      </div>
+    </div>
+
+    <dl class="now">
+      <div>
+        <dt>Роздано товара</dt>
+        <dd>~2 млн ₽<small>без сведённого результата</small></dd>
+      </div>
+      <div>
+        <dt>Маржа канала</dt>
+        <dd>7%<small>вознаграждение сверху</small></dd>
+      </div>
+      <div>
+        <dt>Учёт</dt>
+        <dd>таблицы<small>по памяти и на слово</small></dd>
+      </div>
+    </dl>
+  </header>
+
+  <section>
+    <p class="eyebrow">Как устроено</p>
+    <h2>Три двери в одну систему</h2>
+    <p>Блогер и скаут ничего не устанавливают и не заводят паролей — они заходят из Telegram, где уже сидят. Ты смотришь с компьютера.</p>
+
+    <div class="doors">
+      <div class="doors-row">
+        <div class="door">
+          <p class="door-where">Телефон</p>
+          <p class="door-title">Блогер</p>
+          <p class="door-text">Что получил, что должен сделать, что заработал и когда придут деньги. Без вопросов «а сколько мне» в личку.</p>
+        </div>
+        <div class="door">
+          <p class="door-where">Телефон</p>
+          <p class="door-title">Скаут</p>
+          <p class="door-text">Кого привёл, как эти блогеры отработали, сколько ему за них причитается. Видит сам — значит, приводит ещё.</p>
+        </div>
+        <div class="door">
+          <p class="door-where">Компьютер</p>
+          <p class="door-title">Ты</p>
+          <p class="door-text">Кто из блогеров вернул больше, чем взял. Сколько канал приносит на самом деле — не оборотом, а деньгами.</p>
+        </div>
+      </div>
+
+      <div class="core">
+        <p class="core-name">Единый учёт товара, результата и выплат</p>
+        <p class="chain">кто получил товар &nbsp;→&nbsp; <b>что снял</b> &nbsp;→&nbsp; <b>что продалось</b> &nbsp;→&nbsp; сколько заработал &nbsp;→&nbsp; когда выплата</p>
+      </div>
+
+      <div class="outs">
+        <div class="out"><span>Wildberries</span><p>Продажи и отчёты подтягиваются сами</p></div>
+        <div class="out"><span>Выплаты</span><p>Дважды в месяц, списком, без ручного счёта</p></div>
+        <div class="out"><span>Отчёт</span><p>Прибыль направления, а не оборот</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Главный вопрос</p>
+    <h2>Откуда система знает, чья это продажа</h2>
+    <p>Это то, на чём всё держится, и то, где сейчас дыра. Ни один способ по отдельности не покрывает всё — работают вместе, слоями.</p>
+
+    <div class="layers">
+      <div class="layer">
+        <p class="num">1</p>
+        <h3>Своя ссылка у каждого блогера</h3>
+        <p class="layer-text">Wildberries умеет выдавать помеченные ссылки на товар и сам показывает по каждой: сколько переходов и сколько заказов. Ссылка своя у каждого блогера — значит, заказ виден без его слов и скринов.</p>
+        <p class="tag">Основа · подключается всем</p>
+      </div>
+      <div class="layer">
+        <p class="num">2</p>
+        <h3>Личный промокод</h3>
+        <p class="layer-text">Ловит тех, кто пришёл не по ссылке: услышал в сторис, нашёл товар поиском. Цена вопроса — скидка из той самой маржи, поэтому размер промокода считаем отдельно, а не «пусть будет».</p>
+        <p class="tag">Страховка · где схема завязана на продажи</p>
+      </div>
+      <div class="layer secondary">
+        <p class="num">3</p>
+        <h3>Отдельный артикул под блогера</h3>
+        <p class="layer-text">Товар, который продаётся только через него. Привязка стопроцентная, но карточек становится больше, а отзывы размазываются. Поэтому — точечно, под крупных и под коллаборации.</p>
+        <p class="tag">Точечно · топ-блогеры</p>
+      </div>
+      <div class="layer secondary">
+        <p class="num">4</p>
+        <h3>Его собственный отчёт</h3>
+        <p class="layer-text">Скрины охватов и ссылка на публикацию остаются — но перестают быть основанием для денег. Они нужны, чтобы подтвердить факт и качество выхода, а не чтобы считать выплату.</p>
+        <p class="tag">Контроль факта · не деньги</p>
+      </div>
+    </div>
+
+    <div class="note honest">
+      <p class="pill">Сказать сразу</p>
+      <p><strong>Задним числом правды не будет.</strong> Разметка начинает работать с того дня, как мы её поставим. За прошлые отгрузки система не покажет, кто отработал, а кто нет — этих данных не существует ни у кого, включая Wildberries. Первый честный месяц — это первый месяц после запуска.</p>
+      <p><strong>И ещё одно, о чём стоит знать.</strong> У Wildberries появилась своя программа для блогеров: они снимают внутри площадки, а WB сам считает продажи и платит им процент. Она закрывает только тех, кто снимает у них. Твоих блогеров в Instagram и Telegram, которым ты отгружаешь товар физически, она не покрывает — но подключить её как ещё один источник продаж можно, и результат оттуда мы заведём в тот же кабинет.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Что заменяет руководителя</p>
+    <h2>Лестница: блогер сам знает, что ему делать</h2>
+    <p>Это не украшение и не «баллики». Сегодня блогерами управляет человек — и управляет плохо. Правило, которое видно всем и применяется одинаково, справляется лучше: блогер видит свою ступень, видит, что открывается на следующей, и видит, сколько до неё осталось.</p>
+
+    <div class="ladder">
+      <div class="rung">
+        <p class="step">01</p>
+        <div>
+          <p class="rung-name">Проба</p>
+          <p class="rung-gain">Одна позиция на съёмку. Своя ссылка и свой промокод — с первого дня.</p>
+          <p class="rung-cond">Вход · сам или через скаута</p>
+        </div>
+      </div>
+      <div class="rung">
+        <p class="step">02</p>
+        <div>
+          <p class="rung-name">Проверенный</p>
+          <p class="rung-gain">До трёх позиций, товар остаётся у него, сам выбирает модели.</p>
+          <p class="rung-cond">Вышел в срок + первые подтверждённые продажи</p>
+        </div>
+      </div>
+      <div class="rung">
+        <p class="step">03</p>
+        <div>
+          <p class="rung-name">Постоянный</p>
+          <p class="rung-gain">До шести позиций, повышенная ставка, новинки до релиза.</p>
+          <p class="rung-cond">Три месяца подряд без срывов</p>
+        </div>
+      </div>
+      <div class="rung">
+        <p class="step">04</p>
+        <div>
+          <p class="rung-name">Лицо бренда</p>
+          <p class="rung-gain">Капсула на съёмку, максимальная ставка плюс фиксированная часть, совместный контент.</p>
+          <p class="rung-cond">Топ по подтверждённым продажам за сезон</p>
+        </div>
+      </div>
+      <div class="rung top">
+        <p class="step">05</p>
+        <div>
+          <p class="rung-name">Партнёр</p>
+          <p class="rung-gain">Свой артикул или капсула, участие в разработке, доля с коллекции.</p>
+          <p class="rung-cond">По твоему приглашению</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-up">
+      <div class="ask-card">
+        <span>Вверх</span>
+        <h3>Что поднимает</h3>
+        <p>Подтверждённая продажа, выход в срок, выкуп вместо возврата. Считается автоматически, из скринов охватов — ничего.</p>
+      </div>
+      <div class="ask-card">
+        <span>Вниз</span>
+        <h3>Что опускает</h3>
+        <p>Товар взят, публикации нет — заморозка, потом понижение. Всплеск возвратов — тоже. Понижает правило, а не ты лично.</p>
+      </div>
+    </div>
+
+    <p>У скаутов лестница своя, и платит она не за приведённого, а за <strong>дошедшего</strong>: бонус капает, когда его блогер поднимается на ступень. Это и есть та работа, которую сейчас должен делать руководитель направления.</p>
+
+    <p>Сверху — соревнование: рейтинг месяца по конверсии, а не по охватам, чтобы мелкий блогер с живой аудиторией мог обойти крупного; сезоны с обнулением, чтобы у новых был шанс; серия месяцев без срывов, которую жалко оборвать.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">То, что нельзя не сказать</p>
+    <h2>Закон о рекламе бьёт по каналу сильнее, чем беспорядок в таблицах</h2>
+    <p>Проверил перед разговором. Это не юридическая консультация — это то, о чём стоит поговорить с юристом, и я скажу, что нашёл, как есть.</p>
+
+    <div class="layers">
+      <div class="layer">
+        <p class="num">!</p>
+        <h3>Instagram — реклама запрещена с 1 сентября 2025</h3>
+        <p class="layer-text">Штраф для компании — от 100 до 500 тысяч за размещение. Отвечают оба: и ты как рекламодатель, и блогер. Никакой отсрочки здесь нет.</p>
+        <p class="tag">Действует сейчас</p>
+      </div>
+      <div class="layer">
+        <p class="num">!</p>
+        <h3>Товар в обмен на публикацию — это реклама, её надо помечать</h3>
+        <p class="layer-text">Бартер считается рекламой: нужен специальный номер через оператора и ежемесячный отчёт государству. «Я просто подарил, он сам снял» не работает, если есть промокод или ссылка. Штраф за одно непомеченное размещение — от 100 до 500 тысяч.</p>
+        <p class="tag">Приложи к 2 млн розданного товара</p>
+      </div>
+      <div class="layer secondary">
+        <p class="num">→</p>
+        <h3>Telegram и YouTube — штрафов нет до конца 2026</h3>
+        <p class="layer-text">ФАС дала отсрочку, с 1 января 2027 запрет вступает в силу. Год с небольшим на то, чтобы перевести блогеров на разрешённые площадки: VK, Rutube, Дзен, Wibes.</p>
+        <p class="tag">Есть время подготовиться</p>
+      </div>
+    </div>
+
+    <div class="note honest">
+      <p class="pill">Что с этим делает система</p>
+      <p><strong>Помечает размещения автоматически.</strong> Отгрузил товар — система завела карточку размещения, получила номер, в конце месяца отчиталась. Руками для десятков блогеров это не ведётся никак, поэтому сейчас, скорее всего, не ведётся вообще.</p>
+      <p><strong>Переводит блогеров на разрешённые площадки без приказов.</strong> За публикацию на разрешённой площадке — повышенный коэффициент к ставке и к ступени. Блогеры мигрируют сами, потому что там им выгоднее.</p>
+      <p><strong>Кабинет в Telegram под запрет не попадает.</strong> Запрещена реклама в Telegram-каналах, а не переписка с подрядчиком в мессенджере. Инструмент остаётся.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Порядок</p>
+    <h2>Что появляется и в каком порядке</h2>
+    <p>Не всё сразу. Каждый следующий шаг имеет смысл только когда работает предыдущий — и после каждого ты получаешь что-то, чем можно пользоваться уже завтра.</p>
+
+    <div class="table-scroll">
+      <table>
+        <thead>
+          <tr><th>Шаг</th><th>Что появляется</th><th>Что ты с этого получаешь</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="q">1</td><td class="what">Учёт блогеров, скаутов и выданного товара</td><td class="why">Вместо главной таблицы — живой список. Впервые видно, у кого сколько товара и с какого числа</td></tr>
+          <tr><td class="q">2</td><td class="what">Пометка размещений и отчётность автоматом</td><td class="why">Снимает штрафы от 100 тысяч за каждое непомеченное размещение. Раньше остального, потому что риск идёт уже сейчас</td></tr>
+          <tr><td class="q">3</td><td class="what">Схемы вознаграждения как настройка</td><td class="why">Разные условия под разных блогеров задаются галочками, а не переписыванием системы</td></tr>
+          <tr><td class="q">4</td><td class="what">Кабинет блогера в Telegram, сразу с лестницей уровней</td><td class="why">Вопросы «а сколько мне» уходят из личек, а блогер начинает двигаться сам. Без уровней кабинет — просто выписка</td></tr>
+          <tr><td class="q">5</td><td class="what">Твоя панель: прибыль канала</td><td class="why">То, ради чего всё затевалось: сколько направление приносит после всех выплат</td></tr>
+          <tr><td class="q">6</td><td class="what">Кабинет скаута со своей лестницей</td><td class="why">Скаут получает за дошедшего, а не за приведённого — и начинает вести блогера сам</td></tr>
+          <tr class="later"><td class="q">7</td><td class="what">Соревнование: лига, сезоны, витрина лидеров</td><td class="why">Удержание без уговоров. Рейтинг по конверсии, а не по охватам — накрутка бесполезна</td></tr>
+          <tr class="later"><td class="q">8</td><td class="what">Выплаты дважды в месяц</td><td class="why">Список к выплате собирается сам, ошибки в расчётах исчезают</td></tr>
+          <tr class="later"><td class="q">9</td><td class="what">Та же система для других продавцов</td><td class="why">Из твоего инструмента получается продукт, который можно продавать</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">С твоей стороны</p>
+    <h2>Что нужно, чтобы начать считать</h2>
+    <div class="ask">
+      <div class="ask-card">
+        <span>Полчаса</span>
+        <h3>Ответы на вопросы</h3>
+        <p>Пришлю списком, можно голосовыми. Про товар, схемы оплаты и то, как ты сейчас понимаешь, что блогер сработал.</p>
+      </div>
+      <div class="ask-card">
+        <span>Копия</span>
+        <h3>Твои таблицы как есть</h3>
+        <p>Ничего не причёсывая. Мне нужна реальная картина, а не аккуратная — по живой таблице видно, где на самом деле рвётся.</p>
+      </div>
+      <div class="ask-card">
+        <span>Только чтение</span>
+        <h3>Доступ к кабинету WB</h3>
+        <p>Или ключ на выгрузку отчётов — делается за две минуты, менять и списывать им ничего нельзя. Без реальных продаж проверить главное невозможно.</p>
+      </div>
+    </div>
+
+    <div class="note money">
+      <p class="pill">Деньги</p>
+      <p><strong>Процент — не с твоей прибыли, а с улучшения.</strong> Фиксируем, как канал работает сегодня: маржа, выплаты блогерам, невозвращённый товар. Дальше моя доля считается только от того, что стало лучше этой отметки. Не стало лучше — не считается. Плюс фиксированная часть за работу, чтобы это было основным занятием, а не вечерами.</p>
+      <p>Размер назову, когда посмотрю таблицы и кабинет. Называть цифру вслепую — обманывать нас обоих.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Границы</p>
+    <h2>Чего система делать не будет</h2>
+    <ul>
+      <li>Не восстановит, кто отработал, а кто нет, за прошлые отгрузки — этих данных не существует.</li>
+      <li>Не заставит блогера снять то, что он обещал. Она сделает видимым, что он этого не сделал, и не даст получить за это деньги.</li>
+      <li>Не заменит договорённости с людьми. Она заменит подсчёт, напоминания и роль того, кто ходит и спрашивает «ну как там».</li>
+      <li>Не даёт юридических гарантий. Я нашёл, где горит, и умею это автоматизировать — но подтверждать законность схемы должен твой юрист, а не я.</li>
+      <li>Не превратит убыточный канал в прибыльный сама по себе. Сначала она покажет правду — и правда вполне может оказаться неприятной. Дальше решения принимаешь ты, но уже по цифрам, а не по ощущению.</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>Подготовлено для разговора о направлении «блогеры и скауты». Цифры по товару и марже — с твоих слов, проверяются на первом же выгруженном отчёте.</p>
+    <p>Следующий шаг: ответы на вопросы и доступ на чтение к кабинету — дальше считаю объём и называю сроки.</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
