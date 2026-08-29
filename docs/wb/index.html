@@ -399,6 +399,47 @@
 
   .two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
 
+  /* Липкая навигация по разделам */
+  .toc {
+    position: sticky;
+    top: 0.6rem;
+    z-index: 20;
+    display: flex;
+    gap: 0.15rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.3rem;
+    box-shadow: 0 1px 12px rgba(23, 18, 29, 0.07);
+    margin-bottom: -1.5rem;
+  }
+  .toc::-webkit-scrollbar { display: none; }
+  .toc a {
+    flex: 0 0 auto;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    padding: 0.42rem 0.7rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    transition: color 0.15s, background 0.15s;
+  }
+  .toc a:hover { color: var(--ink); background: var(--surface-alt); }
+  .toc a.here { color: var(--surface); background: var(--accent); }
+  .toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  section[id] { scroll-margin-top: 4rem; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .toc a { transition: none; }
+  }
+
   @media (max-width: 34rem) {
     .doors-row, .outs, .zones, .two-up { grid-template-columns: 1fr; }
     body { font-size: 16px; }
@@ -448,7 +489,17 @@
     </dl>
   </header>
 
-  <section>
+  <nav class="toc" aria-label="Разделы страницы">
+    <a href="#doors">Как устроено</a>
+    <a href="#attribution">Чья продажа</a>
+    <a href="#ladder">Лестница</a>
+    <a href="#law">Закон</a>
+    <a href="#queue">Порядок</a>
+    <a href="#need">Что нужно</a>
+    <a href="#limits">Границы</a>
+  </nav>
+
+  <section id="doors">
     <p class="eyebrow">Как устроено</p>
     <h2>Четыре двери в одну систему</h2>
     <p>Блогер и скаут ничего не устанавливают и не заводят паролей — они заходят из Telegram, где уже сидят. Ты смотришь с компьютера.</p>
@@ -491,7 +542,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="attribution">
     <p class="eyebrow">Главный вопрос</p>
     <h2>Откуда система знает, чья это продажа</h2>
     <p>Это то, на чём всё держится, и то, где сейчас дыра. Ни один способ по отдельности не покрывает всё — работают вместе, слоями.</p>
@@ -542,7 +593,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="ladder">
     <p class="eyebrow">Что заменяет руководителя</p>
     <h2>Лестница: блогер сам знает, что ему делать</h2>
     <p>Это не украшение и не «баллики». Сегодня блогерами управляет человек — и управляет плохо. Правило, которое видно всем и применяется одинаково, справляется лучше: блогер видит свою ступень, видит, что открывается на следующей, и видит, сколько до неё осталось.</p>
@@ -608,7 +659,7 @@
     <p>Сверху — соревнование: рейтинг месяца по конверсии, а не по охватам, чтобы мелкий блогер с живой аудиторией мог обойти крупного; сезоны с обнулением, чтобы у новых был шанс; серия месяцев без срывов, которую жалко оборвать.</p>
   </section>
 
-  <section>
+  <section id="law">
     <p class="eyebrow">То, что нельзя не сказать</p>
     <h2>Закон о рекламе бьёт по каналу сильнее, чем беспорядок в таблицах</h2>
     <p>Проверил перед разговором. Это не юридическая консультация — это то, о чём стоит поговорить с юристом, и я скажу, что нашёл, как есть.</p>
@@ -642,7 +693,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="queue">
     <p class="eyebrow">Порядок</p>
     <h2>Что появляется и в каком порядке</h2>
     <p>Не всё сразу. Каждый следующий шаг имеет смысл только когда работает предыдущий — и после каждого ты получаешь что-то, чем можно пользоваться уже завтра.</p>
@@ -667,7 +718,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="need">
     <p class="eyebrow">С твоей стороны</p>
     <h2>Что нужно, чтобы начать считать</h2>
     <div class="ask">
@@ -696,7 +747,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="limits">
     <p class="eyebrow">Границы</p>
     <h2>Чего система делать не будет</h2>
     <ul>
@@ -714,6 +765,30 @@
   </footer>
 
 </div>
+
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+    var sections = links
+      .map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); })
+      .filter(Boolean);
+    if (!sections.length || !('IntersectionObserver' in window)) return;
+
+    var visible = {};
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+      var current = null;
+      for (var i = 0; i < sections.length; i++) {
+        if (visible[sections[i].id]) { current = sections[i].id; break; }
+      }
+      links.forEach(function (a) {
+        a.classList.toggle('here', a.getAttribute('href') === '#' + current);
+      });
+    }, { rootMargin: '-25% 0px -60% 0px' });
+
+    sections.forEach(function (el) { observer.observe(el); });
+  })();
+</script>
 
 </body>
 </html>
