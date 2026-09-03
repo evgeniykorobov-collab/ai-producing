@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Аудит блогерского канала</title>
+<meta name="description" content="Аудит блогерского канала на Wildberries и Ozon за неделю: где утекают деньги, какую привязку продаж можно построить на ваших данных и что делать в первую очередь. Евгений Коробов, аудитор с инструментами инженера.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Аудит блогерского канала">
+<meta property="og:description" content="За неделю показываю, какой блогер вам заработал, а какой съел товар молча. Цифра, которую нельзя проверить, — это мнение.">
+<meta property="og:locale" content="ru_RU">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%8E%3C/text%3E%3C/svg%3E">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body, h1, h2, h3, p, dl, dd, figure { margin: 0; }
+  img { max-width: 100%; display: block; }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@500;600;700;800&family=Spectral:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@500;700&display=swap">
+
+<style>
+  :root {
+    --ground:      #F7F4F8;
+    --surface:     #FFFFFF;
+    --surface-alt: #F1ECF3;
+    --ink:         #17121D;
+    --muted:       #6B6478;
+    --line:        #E3DBE8;
+    --line-strong: #C9BED2;
+    --accent:      #A81B57;
+    --accent-soft: #F7E6ED;
+    --signal-soft: #E2F0EB;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #14111A; --surface: #1C1824; --surface-alt: #241E2E;
+      --ink: #F2EEF6; --muted: #A79FB4; --line: #2F2839; --line-strong: #453C52;
+      --accent: #FF7BAA; --accent-soft: #37202B; --signal-soft: #17302B;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #14111A; --surface: #1C1824; --surface-alt: #241E2E;
+    --ink: #F2EEF6; --muted: #A79FB4; --line: #2F2839; --line-strong: #453C52;
+    --accent: #FF7BAA; --accent-soft: #37202B; --signal-soft: #17302B;
+  }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Spectral", Georgia, serif;
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap {
+    max-width: 48rem;
+    margin: 0 auto;
+    padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.1rem, 4vw, 2.5rem) 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.75rem, 5vw, 4rem);
+  }
+  h1, h2, h3, .eyebrow, .pill, th, .step-name, .price-name {
+    font-family: "Golos Text", "Segoe UI", Arial, sans-serif;
+  }
+  h1 {
+    font-size: clamp(2rem, 6vw, 3rem);
+    font-weight: 800; line-height: 1.07; letter-spacing: -0.02em;
+    text-wrap: balance; margin: 0;
+  }
+  h2 {
+    font-size: clamp(1.3rem, 3.4vw, 1.7rem);
+    font-weight: 700; line-height: 1.2; letter-spacing: -0.015em;
+    text-wrap: balance; margin: 0;
+  }
+  h3 { font-size: 1rem; font-weight: 700; margin: 0; }
+  p { margin: 0; }
+  strong { font-weight: 500; color: var(--ink); }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+
+  .eyebrow {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.7rem; font-weight: 500; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  section { display: flex; flex-direction: column; gap: 1.3rem; }
+  section > p { max-width: 36em; }
+
+  .hero { display: flex; flex-direction: column; gap: 1.4rem; }
+  .creed {
+    font-family: "Golos Text", "Segoe UI", Arial, sans-serif;
+    font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+    font-weight: 700;
+    color: var(--accent);
+    border-left: 3px solid var(--accent);
+    padding-left: 1rem;
+    max-width: 30em;
+  }
+  .lede { font-size: clamp(1.02rem, 2.4vw, 1.15rem); color: var(--muted); max-width: 34em; }
+
+  .who {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 4px;
+    padding: 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 0.5rem;
+  }
+  .who p { font-size: 0.95rem; }
+
+  ul { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  li { font-size: 0.97rem; }
+  li::marker { color: var(--accent); }
+
+  .steps { display: flex; flex-direction: column; gap: 1px; background: var(--line);
+           border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .step { background: var(--surface); display: grid; grid-template-columns: 2.1rem 1fr;
+          gap: 0 0.9rem; padding: 0.95rem 1.1rem; align-items: start; }
+  .step .n {
+    font-family: "JetBrains Mono", ui-monospace, monospace; font-weight: 700;
+    font-size: 0.82rem; color: var(--accent); padding-top: 0.2rem;
+    font-variant-numeric: tabular-nums;
+  }
+  .step-name { font-weight: 700; font-size: 0.95rem; }
+  .step-text { font-size: 0.9rem; color: var(--muted); margin-top: 0.18rem; }
+  .step.key { background: var(--accent-soft); }
+
+  .table-scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 4px; background: var(--surface); }
+  table { border-collapse: collapse; width: 100%; min-width: 30rem; }
+  th, td { text-align: left; padding: 0.78rem 1rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  thead th {
+    font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.63rem;
+    font-weight: 500; letter-spacing: 0.11em; text-transform: uppercase;
+    color: var(--muted); background: var(--surface-alt);
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  td.t { font-size: 0.92rem; }
+  td.m { font-size: 0.88rem; color: var(--muted); }
+  td.num {
+    font-family: "JetBrains Mono", ui-monospace, monospace; font-weight: 700;
+    font-variant-numeric: tabular-nums; white-space: nowrap; font-size: 0.9rem;
+  }
+
+  .prices { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line);
+            border: 1px solid var(--line); border-radius: 4px; overflow: hidden; }
+  .price { background: var(--surface); padding: 1.3rem 1.25rem; display: flex; flex-direction: column; gap: 0.55rem; }
+  .price.main { background: var(--accent-soft); }
+  .price-name { font-weight: 700; font-size: 1rem; }
+  .price-sum {
+    font-family: "Golos Text", "Segoe UI", Arial, sans-serif; font-weight: 800;
+    font-size: 1.75rem; letter-spacing: -0.01em; font-variant-numeric: tabular-nums;
+  }
+  .price-term {
+    font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.64rem;
+    letter-spacing: 0.09em; text-transform: uppercase; color: var(--muted);
+  }
+  .price ul { padding-left: 1.05rem; gap: 0.35rem; }
+  .price li { font-size: 0.88rem; color: var(--muted); }
+
+  .note { border-radius: 4px; padding: 1.15rem 1.3rem; display: flex; flex-direction: column; gap: 0.55rem; }
+  .note.soft { background: var(--signal-soft); }
+  .note.plain { background: var(--surface); border: 1px solid var(--line); }
+  .note p { font-size: 0.95rem; }
+  .pill {
+    align-self: flex-start;
+    font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.63rem;
+    letter-spacing: 0.11em; text-transform: uppercase;
+    padding: 0.24rem 0.55rem; border-radius: 2px; background: var(--surface); color: var(--ink);
+  }
+
+  .contacts { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 0.85rem; }
+  .contact {
+    background: var(--surface); border: 1px solid var(--line); border-radius: 3px;
+    padding: 0.95rem 1.05rem; display: flex; flex-direction: column; gap: 0.25rem;
+  }
+  .contact span {
+    font-family: "JetBrains Mono", ui-monospace, monospace; font-size: 0.62rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  }
+  .contact a, .contact p { font-family: "Golos Text", "Segoe UI", Arial, sans-serif; font-weight: 600; font-size: 0.95rem; }
+
+  footer { border-top: 1px solid var(--line); padding-top: 1.3rem; font-size: 0.85rem; color: var(--muted);
+           display: flex; flex-direction: column; gap: 0.4rem; }
+
+  @media (max-width: 34rem) {
+    .prices { grid-template-columns: 1fr; }
+    body { font-size: 16px; }
+  }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <p class="eyebrow">Аудит · Wildberries и Ozon</p>
+    <h1>Какой блогер вам заработал, а какой съел товар молча</h1>
+    <p class="creed">Цифра, которую нельзя проверить, — это мнение.</p>
+    <p class="lede">За неделю показываю, что на самом деле происходит в вашем канале блогеров: где утекают деньги, какую привязку продаж можно построить на ваших данных и что делать в первую очередь.</p>
+
+    <div class="who">
+      <h3>Кто это делает</h3>
+      <p>Евгений Коробов. Аудитор с инструментами инженера: прихожу не с презентацией и опросником, а с доступом к вашим отчётам и собственным кодом. Двадцать лет в операционном управлении, два года — системы учёта и автоматизации.</p>
+    </div>
+  </header>
+
+  <section>
+    <p class="eyebrow">Кому подходит</p>
+    <h2>Признаки, что это про вас</h2>
+    <ul>
+      <li>Раздаёте товар блогерам, и в месяц это заметная сумма</li>
+      <li>Не можете за пять минут назвать, какой блогер окупился, а какой нет</li>
+      <li>Учёт живёт в таблицах, а результат — в памяти менеджера</li>
+      <li>Часть отгрузок уходит и не возвращается ни публикацией, ни продажами</li>
+      <li>Есть ощущение, что часть выплат уходит за результат, которого не было</li>
+    </ul>
+    <p>Если вы закупаете рекламу деньгами через биржи — задача у вас другая, и этот аудит будет для вас бесполезен. Скажу об этом сразу, а не после оплаты.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Как устроено</p>
+    <h2>Шесть шагов за неделю</h2>
+
+    <div class="steps">
+      <div class="step">
+        <p class="n">01</p>
+        <div>
+          <p class="step-name">Свожу отгрузки с продажами</p>
+          <p class="step-text">Кому, что и когда уехало — и что из этого видно в отчётах площадки за тот же период.</p>
+        </div>
+      </div>
+      <div class="step key">
+        <p class="n">02</p>
+        <div>
+          <p class="step-name">Проверяю, не приписаны ли блогерам ваши же кампании</p>
+          <p class="step-text">Накладываю продажи артикула, даты публикаций и периоды вашей внутренней рекламы на один график. Это главный номер программы: обычно выясняется, что всплески, за которые платили людям, совпадают с рекламой, а не с роликами.</p>
+        </div>
+      </div>
+      <div class="step">
+        <p class="n">03</p>
+        <div>
+          <p class="step-name">Считаю, какая привязка вообще возможна</p>
+          <p class="step-text">Помеченные ссылки, персональные промокоды, отдельные артикулы — что из этого работает именно у вас и что можно включить на следующей неделе.</p>
+        </div>
+      </div>
+      <div class="step">
+        <p class="n">04</p>
+        <div>
+          <p class="step-name">Считаю потери</p>
+          <p class="step-text">Доля отгрузок без результата, стоимость товара, ушедшего в тишину, выплаты за неподтверждённый вклад.</p>
+        </div>
+      </div>
+      <div class="step">
+        <p class="n">05</p>
+        <div>
+          <p class="step-name">Смотрю правовой контур</p>
+          <p class="step-text">Площадки, маркировка бартерных размещений, накопленный риск в деньгах. Обзор рисков со ссылками на нормы — не юридическое заключение.</p>
+        </div>
+      </div>
+      <div class="step">
+        <p class="n">06</p>
+        <div>
+          <p class="step-name">Отдаю приоритеты</p>
+          <p class="step-text">Три–пять шагов в порядке отдачи. Большая часть выполняется вашими руками, без разработки.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Результат</p>
+    <h2>Что вы получаете</h2>
+    <ul>
+      <li><strong>Отчёт на 6–10 страниц</strong> человеческим языком, с графиками. Ссылкой и файлом</li>
+      <li><strong>Разбор голосом на час</strong> — по отчёту, с ответами на вопросы</li>
+      <li><strong>Таблица «блогер → отгружено → подтверждённые продажи → результат»</strong> по тем данным, которые удалось привязать</li>
+      <li><strong>План первых шагов</strong>, который работает без меня и без всякой системы</li>
+    </ul>
+    <div class="note plain">
+      <p>Последний пункт — принципиальный. Если в отчёте нет того, что вы можете сделать сами уже на следующей неделе, это не аудит, а презентация услуг под видом аудита.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">С вашей стороны</p>
+    <h2>Нужен примерно час вашего времени</h2>
+    <div class="table-scroll">
+      <table>
+        <thead><tr><th>Что</th><th>Зачем</th><th>Время</th></tr></thead>
+        <tbody>
+          <tr><td class="t">Ключ доступа на чтение</td><td class="m">продажи и отчёты из кабинета. Только чтение: изменить или списать им нельзя</td><td class="num">2 мин</td></tr>
+          <tr><td class="t">Ваши таблицы по блогерам</td><td class="m">как есть, ничего не причёсывая</td><td class="num">5 мин</td></tr>
+          <tr><td class="t">Промокоды и ссылки, если есть</td><td class="m">проверить, что уже размечено</td><td class="num">5 мин</td></tr>
+          <tr><td class="t">Разговор в начале</td><td class="m">как у вас всё устроено на самом деле</td><td class="num">30 мин</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Главное возражение владельца — не цена, а «мне некогда этим заниматься». Поэтому час, и ни минутой больше.</p>
+  </section>
+
+  <section>
+    <p class="eyebrow">Сроки и цена</p>
+    <h2>Два формата</h2>
+    <div class="prices">
+      <div class="price">
+        <p class="price-name">Экспресс</p>
+        <p class="price-sum">25 000 ₽</p>
+        <p class="price-term">3 рабочих дня</p>
+        <ul>
+          <li>по вашим таблицам, без доступа к кабинету</li>
+          <li>масштаб потерь и что можно размечать</li>
+          <li>приоритеты первых шагов</li>
+        </ul>
+      </div>
+      <div class="price main">
+        <p class="price-name">Полный</p>
+        <p class="price-sum">60 000 ₽</p>
+        <p class="price-term">5–7 рабочих дней</p>
+        <ul>
+          <li>все шесть шагов, с доступом на чтение</li>
+          <li>разбор по артикулам и график с наложением рекламы</li>
+          <li>правовой контур и план внедрения</li>
+        </ul>
+      </div>
+    </div>
+    <div class="note soft">
+      <p class="pill">Как считать, окупается ли</p>
+      <p>Аудит окупается, если находит хотя бы 5% потерь. При раздаче товара на миллион рублей в месяц это пятьдесят тысяч — то есть окупаемость на первом же месяце после исправления. Не «доверьтесь», а проверяемая арифметика.</p>
+    </div>
+  </section>
+
+  <section>
+    <p class="eyebrow">Границы</p>
+    <h2>Чего я не делаю</h2>
+    <ul>
+      <li><strong>Не даю юридических заключений.</strong> Правовой блок — обзор рисков со ссылками на нормы и рекомендация показать юристу</li>
+      <li><strong>Не обещаю точную привязку до аудита.</strong> Возможна ли она на ваших данных — это один из результатов работы, а не входное условие</li>
+      <li><strong>Не восстанавливаю прошлое.</strong> Если ссылки не были помечены, данных о том, откуда пришёл покупатель, не существует ни у вас, ни у площадки</li>
+      <li><strong>Не трогаю внутреннюю рекламу и ассортимент.</strong> Там у вас обычно уже есть люди, и они справляются</li>
+      <li><strong>Не передаю ваши данные никуда.</strong> В примеры и кейсы они попадают только обезличенно и только с вашего согласия</li>
+    </ul>
+  </section>
+
+  <section>
+    <p class="eyebrow">Начать</p>
+    <h2>Напишите — посмотрю ваш случай бесплатно</h2>
+    <p>Перед любыми деньгами: расскажите в двух абзацах, как у вас устроена работа с блогерами. Скажу честно, есть ли смысл в аудите именно у вас, и если нет — так и скажу.</p>
+    <div class="contacts">
+      <div class="contact">
+        <span>Telegram</span>
+        <a href="https://t.me/korobovevgen">@korobovevgen</a>
+      </div>
+      <div class="contact">
+        <span>Почта</span>
+        <a href="mailto:ek@eko-res.ru">ek@eko-res.ru</a>
+      </div>
+      <div class="contact">
+        <span>Телефон</span>
+        <a href="tel:+79094331312">+7 909 433-13-12</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Евгений Коробов · Ростов-на-Дону · работа удалённо</p>
+    <p>Резюме и другие проекты — <a href="https://ai-producing.com/">ai-producing.com</a></p>
+  </footer>
+
+</div>
+
+</body>
+</html>
