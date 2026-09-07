@@ -181,6 +181,46 @@
   footer { border-top: 1px solid var(--line); padding-top: 1.3rem; font-size: 0.85rem; color: var(--muted);
            display: flex; flex-direction: column; gap: 0.4rem; }
 
+  .toc {
+    position: sticky;
+    top: 0.6rem;
+    z-index: 20;
+    display: flex;
+    gap: 0.15rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 0.3rem;
+    box-shadow: 0 1px 12px rgba(23, 18, 29, 0.07);
+    margin-bottom: -1.2rem;
+  }
+  .toc::-webkit-scrollbar { display: none; }
+  .toc a {
+    flex: 0 0 auto;
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--muted);
+    padding: 0.42rem 0.7rem;
+    border-radius: 999px;
+    white-space: nowrap;
+    transition: color 0.15s, background 0.15s;
+  }
+  .toc a:hover { color: var(--ink); background: var(--surface-alt); }
+  .toc a.here { color: var(--surface); background: var(--accent); }
+  .toc a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  section[id] { scroll-margin-top: 4rem; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .toc a { transition: none; }
+  }
+
   @media (max-width: 34rem) {
     .prices { grid-template-columns: 1fr; }
     body { font-size: 16px; }
@@ -203,7 +243,17 @@
     </div>
   </header>
 
-  <section>
+  <nav class="toc" aria-label="Разделы страницы">
+    <a href="#who">Кому</a>
+    <a href="#how">Как устроено</a>
+    <a href="#result">Результат</a>
+    <a href="#from-you">От вас</a>
+    <a href="#price">Цена</a>
+    <a href="#limits">Границы</a>
+    <a href="#start">Начать</a>
+  </nav>
+
+  <section id="who">
     <p class="eyebrow">Кому подходит</p>
     <h2>Признаки, что это про вас</h2>
     <ul>
@@ -216,7 +266,7 @@
     <p>Если вы закупаете рекламу деньгами через биржи — задача у вас другая, и этот аудит будет для вас бесполезен. Скажу об этом сразу, а не после оплаты.</p>
   </section>
 
-  <section>
+  <section id="how">
     <p class="eyebrow">Как устроено</p>
     <h2>Шесть шагов за неделю</h2>
 
@@ -266,7 +316,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="result">
     <p class="eyebrow">Результат</p>
     <h2>Что вы получаете</h2>
     <ul>
@@ -280,7 +330,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="from-you">
     <p class="eyebrow">С вашей стороны</p>
     <h2>Нужен примерно час вашего времени</h2>
     <div class="table-scroll">
@@ -297,7 +347,7 @@
     <p>Главное возражение владельца — не цена, а «мне некогда этим заниматься». Поэтому час, и ни минутой больше.</p>
   </section>
 
-  <section>
+  <section id="price">
     <p class="eyebrow">Сроки и цена</p>
     <h2>Два формата</h2>
     <div class="prices">
@@ -328,7 +378,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="limits">
     <p class="eyebrow">Границы</p>
     <h2>Чего я не делаю</h2>
     <ul>
@@ -340,7 +390,7 @@
     </ul>
   </section>
 
-  <section>
+  <section id="start">
     <p class="eyebrow">Начать</p>
     <h2>Напишите — посмотрю ваш случай бесплатно</h2>
     <p>Перед любыми деньгами: расскажите в двух абзацах, как у вас устроена работа с блогерами. Скажу честно, есть ли смысл в аудите именно у вас, и если нет — так и скажу.</p>
@@ -366,6 +416,28 @@
   </footer>
 
 </div>
+
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.toc a'));
+    var sections = links
+      .map(function (a) { return document.getElementById(a.getAttribute('href').slice(1)); })
+      .filter(Boolean);
+    if (!sections.length || !('IntersectionObserver' in window)) return;
+    var visible = {};
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+      var current = null;
+      for (var i = 0; i < sections.length; i++) {
+        if (visible[sections[i].id]) { current = sections[i].id; break; }
+      }
+      links.forEach(function (a) {
+        a.classList.toggle('here', a.getAttribute('href') === '#' + current);
+      });
+    }, { rootMargin: '-25% 0px -60% 0px' });
+    sections.forEach(function (el) { observer.observe(el); });
+  })();
+</script>
 
 </body>
 </html>
